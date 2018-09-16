@@ -1,0 +1,90 @@
+package folder;
+
+import java.util.Scanner;
+
+public class List {
+
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		HuxleyCode lista1 = new HuxleyCode();
+		HuxleyCode lista2 = new HuxleyCode();
+		while (in.hasNextInt()) {
+			lista1.inserir(in.nextInt());
+		}
+		String list1a = lista1.toString();
+		String list1 = list1a.substring(0, list1a.length() - 1);
+		in.next();
+		while (in.hasNextInt()) {
+			lista2.inserir(in.nextInt());
+		}
+		String list2a = lista2.toString();
+		String list2 = list2a.substring(0, list2a.length() - 1);
+		if (in.next().equals("=")) {
+			long resp1, resp2, respadd;
+			if (list1.equals("")) {
+				resp1 = 0;
+			} else {
+				resp1 = Integer.valueOf(list1);
+			}
+			if (list2.equals("")) {
+				resp2 = 0;
+			} else {
+				resp2 = Integer.parseInt(list2);
+			}
+			respadd = resp1 + resp2;
+			String rfinal = Long.toString(respadd);
+			if (rfinal.equals("0")) {
+				System.out.print("Lista vazia!");
+			} else {
+				for (int i = 0; i < rfinal.length(); i++) {
+					System.out.print(rfinal.charAt(i) + " ");
+				}
+			}
+		}
+	}
+
+	public static class Dado {
+		public int valor;
+
+		public Dado(int valor) {
+			this.valor = valor;
+		}
+	}
+
+	public static class HuxleyCode {
+		public Dado dado;
+		public HuxleyCode proximo;
+
+		public HuxleyCode() {
+			this.dado = null;
+			this.proximo = null;
+		}
+
+		public void inserir(int valor) {
+			if (this.dado == null) {
+				this.dado = new Dado(valor);
+				this.proximo = new HuxleyCode();
+			} else {
+				this.proximo.inserir(valor);
+			}
+		}
+
+		public void remover(int valor) {
+			if (this.dado.valor == valor) {
+				this.dado = this.proximo.dado;
+				this.proximo = this.proximo.proximo;
+			} else {
+				this.proximo.remover(valor);
+			}
+		}
+
+		public String toString() {
+			if (this.dado == null) {
+				return " ";
+			} else {
+				return dado.valor + "" + proximo.toString();
+			}
+		}
+
+	}
+}
